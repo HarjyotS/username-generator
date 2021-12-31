@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+
+    <title>Random Username Generator</title>
+    <style></style>
+    <style>
+      .options {
+        color: #52b69a;
+        font-size: large;
+      }
+      .random {
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #76c893;
+
+        /* make the text bold */
+        font-weight: bold;
+        /* make the text more spaced apart */
+        letter-spacing: 0.7px;
+        font-size: xx-large;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+      }
+      .centercap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+      }
+      /* Center the h1 text and set the font to halvetica*/
+      h1 {
+        /* Apply some glow to the text with color #5E60CE*/
+        /* text-shadow: 0 0 6px #52b69a; */
+        text-align: center;
+        font-family: "Helvetica";
+        color: #76c893;
+      }
+      /* Set the background to 48bfe3*/
+      body {
+        font-family: "Helvetica";
+        background-color: #184e77;
+      }
+    </style>
+  </head>
+  <body>
+    <h1
+      onclick="confetti({
+            spread: 180
+        });"
+    >
+      Random username generator
+    </h1>
+    <!-- create a cenetered div -->
+    <p class="random" id="username"></p>
+    <div class="center">
+      <!-- Create a button with curved edges and color #5390D9 with a width of 50 pixels and a hight of 20 pixels-->
+      <button
+        style="
+          border-radius: 10px;
+          background-color: #52b69a;
+          width: 100px;
+          height: 50px;
+        "
+        onclick="sendr()"
+      >
+        Click me!
+      </button>
+    </div>
+    <!-- create 2 checkboxes and center them on the page -->
+
+    <div class="centercap options">
+      <input type="checkbox" id="check1" />
+      <label for="check1">
+        <span class="checkbox">Capitalise induvidual words</span>
+      </label>
+    </div>
+    <div class="centercap options">
+      <input type="checkbox" id="check2" />
+      <label for="check2">
+        <span class="checkbox">Add Hyphens</span>
+      </label>
+    </div>
+    <script>
+      function getoptions() {
+        var options = {
+          capitalise: document.getElementById("check1").checked,
+          hyphenate: document.getElementById("check2").checked,
+        };
+        return options;
+      }
+
+      function sendr() {
+        var options = getoptions();
+        url =
+          "/username" +
+          "?capitalise=" +
+          options.capitalise +
+          "&hyphenate=" +
+          options.hyphenate;
+        // send axsios request to the server and get a random username
+        axios.get(url).then((response) => {
+          // set the username to the response
+          document.getElementById("username").innerHTML = response.data;
+        });
+      }
+    </script>
+  </body>
+</html>
